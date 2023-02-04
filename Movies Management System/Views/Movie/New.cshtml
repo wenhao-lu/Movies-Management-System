@@ -4,22 +4,22 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create Movie</h2>
+<h2>Add A New Movie</h2>
 <form action="/Movie/Create" method="POST">
-    <div>
-        <label>Title:</label> <input type="text" name="MovieTitle" />
+    <div class="addInput">
+        <label>Movie Title:</label> <input type="text" name="MovieTitle" />
     </div>
-    <div>
+    <div class="addInput">
         <label>Publication Year:</label> <input type="number" name="PubYear" />
     </div>
-    <div>
-        <label>Director:</label> <input type="text" name="Director" />
+    <div class="addInput">
+        <label>Movie Director:</label> <input type="text" name="Director" />
     </div>
-    <div>
-        <label>Ratings:</label> <input type="number" name="Ratings" />
+    <div class="addInput">
+        <label>Movie Ratings:</label> <input type="number" name="Ratings" />
     </div>
-    <div>
-        <label>Genre:</label>
+    <div class="addInput">
+        <label>Movie Genre:</label>
         <select name="GenreID">
             @foreach (var genre in Model)
             {
@@ -28,8 +28,42 @@
             }
         </select>
     </div>
-    <div>
-        <input type="submit" value="Add Movie" />
-
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Add Movie" id="addBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Movie/List">Back to List</a>
+        </div>
     </div>
 </form>
+
+<style>
+    body {
+        text-align: center;
+    }
+    #addBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left:4em;
+        padding: 0.66em;
+        color: blue;
+    }
+    .addInput {
+        margin-top:1em;
+    }
+    #btnContainer{
+        display:flex;
+        flex-flow:row;
+        align-items:baseline;
+        justify-content:center;
+    }
+</style>

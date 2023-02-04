@@ -4,26 +4,26 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Update Movie</h2>
+<h2>Update A Movie</h2>
 <form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST">
     <div style="display:none;">
         @* Pass through the Movie ID *@
         <input type="text" name="MovieID" value="@Model.SelectedMovie.MovieID" />
     </div>
-    <div>
-        <label>Title:</label> <input type="text" name="MovieTitle" value="@Model.SelectedMovie.MovieTitle" />
+    <div class="editInput">
+        <label>Movie Title:</label> <input type="text" name="MovieTitle" value="@Model.SelectedMovie.MovieTitle" />
     </div>
-    <div>
+    <div class="editInput">
         <label>Publication Year:</label> <input type="number" name="PubYear" value="@Model.SelectedMovie.PubYear" />
     </div>
-    <div>
-        <label>Director:</label> <input type="text" name="Director" value="@Model.SelectedMovie.Director" />
+    <div class="editInput">
+        <label>Movie Director:</label> <input type="text" name="Director" value="@Model.SelectedMovie.Director" />
     </div>
-    <div>
-        <label>Ratings:</label> <input type="number" name="Ratings" value="@Model.SelectedMovie.Ratings" />
+    <div class="editInput">
+        <label>Movie Ratings:</label> <input type="number" name="Ratings" value="@Model.SelectedMovie.Ratings" />
     </div>
-    <div>
-        <label>Genre ID:</label>
+    <div class="editInput">
+        <label>Movie Genre:</label>
 
         <select name="GenreID">
             @foreach (var genre in Model.GenreOptions)
@@ -38,8 +38,46 @@
             }
         </select>
     </div>
-    <div>
-        <input type="submit" value="Update Movie" />
-
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Update Movie" id="editBtn"/>
+        </div>
+        <div>
+            <a id="backbtn" href="/Movie/List">Back to List</a>
+        </div>
     </div>
 </form>
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .editInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>

@@ -5,11 +5,96 @@
 }
 
 <h2>Are you sure you want to delete this movie?</h2>
-<a href="/movie/List">Cancel</a>
-<h2>@Model.MovieTitle</h2>
-<div>Publication Year: @Model.PubYear</div>
-<div>Director: @Model.Director</div>
-<form action="/Movie/Delete/@Model.MovieID" method="POST">
-    <input type="submit" value="Confirm Delete" />
 
-</form>
+<table id="MovieDetailsTable">
+    <tr>
+        <th id="trID">Movie ID</th>
+        <th id="trPubYear">Publication Year</th>
+        <th id="trTitle">Title</th>
+        <th id="trDirector">Director</th>
+        <th id="trRatings">Ratings</th>
+        <th id="trGenre">Genre</th>
+    </tr>
+    <tr>
+        <td id="tdID">@Model.MovieID</td>
+        <td id="tdTitle">@Model.PubYear</td>
+        <td id="tdPubYear">@Model.MovieTitle</td>
+        <td id="tdDirector">@Model.Director</td>
+        <td id="tdRatings">@Model.Ratings</td>
+        <td id="tdGenre">@Model.GenreName</td>
+    </tr>
+</table>
+
+<div id="btnContainer">
+    <div>
+        <a href="/movie/List" id="backbtn">Cancel</a>
+    </div>
+    <div>
+        <form action="/Movie/Delete/@Model.MovieID" method="POST">
+            <input type="submit" value="Confirm Delete" id="delBtn" />
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+
+    #trID, #tdID, #trGenre, #tdGenre {
+        width: 100px;
+        text-align: center;
+    }
+
+    #trTitle, #tdTitle {
+        width: 340px;
+        text-align: center;
+    }
+
+    #trDirector, #tdDirector {
+        width: 240px;
+        text-align: center;
+    }
+
+    #trPubYear, #tdPubYear {
+        width: 150px;
+        text-align: center;
+    }
+
+    #trRatings, #tdRatings {
+        width: 80px;
+        text-align: center;
+    }
+
+    #MovieDetailsTable {
+        margin-top: 2em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    #delBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: red;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-right: 4em;
+        padding: 0.64em;
+        color: blue;
+    }
+</style>

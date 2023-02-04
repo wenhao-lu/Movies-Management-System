@@ -3,17 +3,95 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
-<a href="/Movie/New">New Movie</a>
-@foreach (var movie in Model)
-{
-    <h2><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></h2>
-    <div>Movie ID: @movie.MovieID</div>
-    <div>Publication Year: @movie.PubYear</div>
-    <div>Director: @movie.Director</div>
-    <div>Ratings: @movie.Ratings</div>
-    <div>Genre: @movie.GenreName</div>
+<h1>Movies Management System</h1>
+<h3>Movie List</h3>
+
+<nav id="add">
+    <a class="navlink" href="/Movie/New">New Movie</a>
+</nav>
 
 
+    <table id="MovieListTable">
+        <tr>
+            <th id="trID">Movie ID</th>
+            <th id="trPubYear">Publication Year</th>
+            <th id="trTitle">Title</th>
+            <th id="trDirector">Director</th>
+            <th id="trRatings">Ratings</th>
+            <th id="trGenre">Genre</th>
+        </tr>
+        @foreach (var movie in Model)
+        {
+        <tr>
+            <td id="tdID"><a href="/Movie/Details/@movie.MovieID">@movie.MovieID</a></td>
+            <td id="tdPubYear"><a href="/Movie/Details/@movie.MovieID">@movie.PubYear</a></td>
+            <td id="tdTitle"><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></td>
+            <td id="tdDirector"><a href="/Movie/Details/@movie.MovieID">@movie.Director</a></td>
+            <td id="tdRatings"><a href="/Movie/Details/@movie.MovieID">@movie.Ratings</a></td>
+            <td id="tdGenre"><a href="/Movie/Details/@movie.MovieID">@movie.GenreName</a></td>
 
+        </tr>
+        }
+        </table>
+
+
+<style>
+th, td {
+   border: 1px solid black;
 }
+#trID, #tdID, #trGenre, #tdGenre {
+   width: 100px;
+   text-align: center;
+}
+#trTitle, #tdTitle{
+   width: 340px;
+   text-align: center;
+}
+#trDirector, #tdDirector {
+   width: 240px;
+   text-align: center;
+}
+#trPubYear, #tdPubYear {
+   width: 150px;
+   text-align: center;
+}
+#trRatings, #tdRatings {
+   width: 80px;
+   text-align: center;
+}
+/*body {
+   background-color: black;
+   color: white;
+}*/
+#add {
+   text-align: center;
+   margin: 1em auto;
+}
+.navlink {
+   padding: 0.2em;
+   border: 1px solid;
+   border-radius: 5px;
+}
+h1 {
+   font-family: 'Ubuntu', sans-serif;
+   font-weight: bold 700;
+   /*color: white;}*/
+   margin-top: 2em;
+   margin-bottom: 0;
+   text-align: center;
+}
+h3 {
+   font-family: 'Ubuntu', sans-serif;
+   font-weight: bold 400;
+   /*color: white;}*/
+   margin: 1em auto;
+   text-align: center;
+}
+#MovieListTable {
+   border-style: solid;
+   margin-left: auto;
+   margin-right: auto;
+   table-layout: fixed;
+   width: 100%;
+}
+</style>
