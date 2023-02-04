@@ -1,0 +1,24 @@
+﻿@model Movies_Management_System.Models.ClientDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Client</h2>
+<form action="/Client/Update/@Model.ClientID" method="POST">
+    <div style="display:none;">
+        @* Pass through the Client ID *@
+        <input type="text" name="ClientID" value="@Model.ClientID" />
+    </div>
+    <div>
+        <label>Client Name:</label> <input type="text" name="ClientFirstName" value="@Model.ClientName" />
+    </div>
+    <div>
+        <label>Client Location:</label> <input type="text" name="ClientLastName" value="@Model.ClientLocation" />
+    </div>
+
+    <div>
+        <input type="submit" value="Update Client" />
+
+    </div>
+</form>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Movies_Management_System.Models.GenreDto>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Movie</h2>
+<form action="/Movie/Create" method="POST">
+    <div>
+        <label>Title:</label> <input type="text" name="MovieTitle" />
+    </div>
+    <div>
+        <label>Publication Year:</label> <input type="number" name="PubYear" />
+    </div>
+    <div>
+        <label>Director:</label> <input type="text" name="Director" />
+    </div>
+    <div>
+        <label>Ratings:</label> <input type="number" name="Ratings" />
+    </div>
+    <div>
+        <label>Genre:</label>
+        <select name="GenreID">
+            @foreach (var genre in Model)
+            {
+                <option value="@genre.GenreID">@genre.GenreName</option>
+
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Add Movie" />
+
+    </div>
+</form>

@@ -1,0 +1,12 @@
+﻿@model Movies_Management_System.Models.ClientDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Are you sure you want to delete this Client?</h2>
+<a href="/Client/List">Cancel</a>
+<h3>Name: @Model.ClientName @Model.ClientLocation</h3>
+<form action="/Client/Delete/@Model.ClientID" method="POST">
+    <input type="submit" value="Confirm Delete" />
+</form>

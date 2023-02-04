@@ -1,0 +1,45 @@
+﻿@model Movies_Management_System.Models.ViewModels.UpdateMovie
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Movie</h2>
+<form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST">
+    <div style="display:none;">
+        @* Pass through the Movie ID *@
+        <input type="text" name="MovieID" value="@Model.SelectedMovie.MovieID" />
+    </div>
+    <div>
+        <label>Title:</label> <input type="text" name="MovieTitle" value="@Model.SelectedMovie.MovieTitle" />
+    </div>
+    <div>
+        <label>Publication Year:</label> <input type="number" name="PubYear" value="@Model.SelectedMovie.PubYear" />
+    </div>
+    <div>
+        <label>Director:</label> <input type="text" name="Director" value="@Model.SelectedMovie.Director" />
+    </div>
+    <div>
+        <label>Ratings:</label> <input type="number" name="Ratings" value="@Model.SelectedMovie.Ratings" />
+    </div>
+    <div>
+        <label>Genre ID:</label>
+
+        <select name="GenreID">
+            @foreach (var genre in Model.GenreOptions)
+            {
+                string selected = "";
+                if (genre.GenreID == Model.SelectedMovie.GenreID)
+                {
+                    selected = "selected";
+                }
+                <option value="@genre.GenreID" @selected>@genre.GenreName</option>
+
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Update Movie" />
+
+    </div>
+</form>

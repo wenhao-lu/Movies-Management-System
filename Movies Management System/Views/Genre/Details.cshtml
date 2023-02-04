@@ -1,0 +1,24 @@
+﻿@model Movies_Management_System.Models.ViewModels.DetailsGenre
+
+
+@{
+    ViewBag.Title = "View";
+}
+
+<a href="/Genre/List">Go back to list</a>
+<br />
+<a href="/Genre/Edit/@Model.SelectedGenre.GenreID">Update</a>
+<br />
+<a style="color:#ab2020;" href="/Genre/DeleteConfirm/@Model.SelectedGenre.GenreID">Delete</a>
+<h2>@Model.SelectedGenre.GenreName</h2>
+<div>Genre ID: @Model.SelectedGenre.GenreID</div>
+
+
+<div style="margin-top:100px;">
+    <h3>Movies related to this Genre</h3>
+    @foreach (var movie in Model.RelatedMovies)
+    {
+        <a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a>
+
+    }
+</div>

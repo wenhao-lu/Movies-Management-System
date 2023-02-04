@@ -1,0 +1,37 @@
+﻿@model Movies_Management_System.Models.ViewModels.DetailsMovie
+@{
+    ViewBag.Title = "View";
+}
+
+<a href="/Movie/List">Go back to list</a>
+<br />
+<a href="/Movie/Edit/@Model.SelectedMovie.MovieID">Update</a>
+<br />
+<a style="color:#ab2020;" href="/Movie/DeleteConfirm/@Model.SelectedMovie.MovieID">Delete</a>
+<h2>@Model.SelectedMovie.MovieTitle</h2>
+<div>Publication Year: @Model.SelectedMovie.PubYear</div>
+<div>Director: @Model.SelectedMovie.Director</div>
+<div>Genre: @Model.SelectedMovie.GenreName</div>
+
+<div>
+    <h2>Clients' Favorite @Model.SelectedMovie.MovieTitle:</h2>
+    @foreach (var Client in Model.ResponsibleClients)
+    {
+
+        <a href="/Client/Details/@Client.ClientID">@Client.ClientName @Client.ClientLocation</a> <a style="color:#ab2020;" href="/Movie/Unassociate/@Model.SelectedMovie.MovieID?ClientID=@Client.ClientID">[x]</a><br />
+    }
+
+    <div>
+        <h4>Add new Client who loves @Model.SelectedMovie.MovieTitle</h4>
+        <form method="POST" action="/Movie/Associate/@Model.SelectedMovie.MovieID">
+            <select name="ClientID">
+                @foreach (var Client in Model.AvailableClients)
+                {
+                    <option value="@Client.ClientID">@Client.ClientName @Client.ClientLocation</option>
+                }
+
+            </select>
+            <input type="submit" value="Associate Client" />
+        </form>
+    </div>
+</div>

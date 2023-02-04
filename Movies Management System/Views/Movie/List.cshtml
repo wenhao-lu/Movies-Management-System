@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Movies_Management_System.Models.MovieDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<a href="/Movie/New">New Movie</a>
+@foreach (var movie in Model)
+{
+    <h2><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></h2>
+    <div>Movie ID: @movie.MovieID</div>
+    <div>Publication Year: @movie.PubYear</div>
+    <div>Director: @movie.Director</div>
+    <div>Ratings: @movie.Ratings</div>
+    <div>Genre: @movie.GenreName</div>
+
+
+
+}

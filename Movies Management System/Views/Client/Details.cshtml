@@ -1,0 +1,24 @@
+﻿@model Movies_Management_System.Models.ViewModels.DetailsClient
+
+
+@{
+    ViewBag.Title = "View";
+}
+
+<a href="/Client/List">Go back to list</a>
+<br />
+<a href="/Client/Edit/@Model.SelectedClient.ClientID">Update</a>
+<br />
+<a style="color:#ab2020;" href="/Client/DeleteConfirm/@Model.SelectedClient.ClientID">Delete</a>
+<h2>@Model.SelectedClient.ClientName @Model.SelectedClient.ClientLocation</h2>
+
+
+
+<div>
+    <h3>Responsible for:</h3>
+    @foreach (var movie in Model.KeptMovies)
+    {
+        <a href="/Animal/Details/@movie.MovieID">@movie.MovieTitle</a><br />
+
+    }
+</div>

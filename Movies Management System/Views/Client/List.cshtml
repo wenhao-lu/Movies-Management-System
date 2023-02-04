@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Movies_Management_System.Models.ClientDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<a href="/Client/New">New Client</a>
+@foreach (var client in Model)
+{
+    <h2><a href="/Client/Details/@client.ClientID">@client.ClientName, @client.ClientLocation</a></h2>
+}
