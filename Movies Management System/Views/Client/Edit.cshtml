@@ -3,22 +3,62 @@
 @{
     ViewBag.Title = "Edit";
 }
+<h1>Movies Management System</h1>
+<h2>Update Client <strong>'@Model.ClientName'</strong></h2>
 
-<h2>Update Client</h2>
+
+
 <form action="/Client/Update/@Model.ClientID" method="POST">
     <div style="display:none;">
-        @* Pass through the Client ID *@
         <input type="text" name="ClientID" value="@Model.ClientID" />
     </div>
-    <div>
+    <div class="editInput">
         <label>Client Name:</label> <input type="text" name="ClientFirstName" value="@Model.ClientName" />
     </div>
-    <div>
+    <div class="editInput">
         <label>Client Location:</label> <input type="text" name="ClientLastName" value="@Model.ClientLocation" />
     </div>
-
-    <div>
-        <input type="submit" value="Update Client" />
-
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Update Client" id="editBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Client/List">Back to List</a>
+        </div>
     </div>
 </form>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .editInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>

@@ -4,7 +4,9 @@
     ViewBag.Title = "Edit";
 }
 
+<h1>Movies Management System</h1>
 <h2>Update A Movie</h2>
+
 <form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST">
     <div style="display:none;">
         @* Pass through the Movie ID *@

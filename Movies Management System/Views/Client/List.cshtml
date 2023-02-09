@@ -2,10 +2,74 @@
 @{
     ViewBag.Title = "List";
 }
+<h1>Movies Management System</h1>
+<h3>Client List</h3>
 
-<h2>List</h2>
-<a href="/Client/New">New Client</a>
+<nav id="add">
+    <a class="navlink" href="/Client/New">New Client</a>
+</nav>
+
+
+<table id="ClientListTable">
+    <tr>
+        <th id="thID">Client ID</th>
+        <th id="thClientName">Client Name</th>
+        <th id="thClientLocation">Client Location</th>
+    </tr>
 @foreach (var client in Model)
-{
-    <h2><a href="/Client/Details/@client.ClientID">@client.ClientName, @client.ClientLocation</a></h2>
+    {
+        <tr>
+            <td id="tdID"><a href="/Client/Details/@client.ClientID">@client.ClientID</a></td>
+            <td id="tdClientName"><a href="/Client/Details/@client.ClientID">@client.ClientName</a></td>
+            <td id="tdClientLocation"><a href="/Client/Details/@client.ClientID">@client.ClientLocation</a></td>
+        </tr>
+    }
+</table>
+
+
+<style>
+h1 {
+   font-family: 'Ubuntu', sans-serif;
+   font-weight: bold 700;
+   margin-top: 2em;
+   margin-bottom: 0;
+   text-align: center;
 }
+h3 {
+   font-family: 'Ubuntu', sans-serif;
+   font-weight: bold 400;
+   margin: 1em auto;
+   text-align: center;
+}
+#add {
+   text-align: center;
+   margin: 1em auto;
+}
+.navlink {
+   padding: 0.2em;
+   border: 1px solid;
+   border-radius: 5px;
+}
+#ClientListTable {
+   border-style: solid;
+   margin-left: auto;
+   margin-right: auto;
+   table-layout: fixed;
+   width: 100%;
+}
+#thID,#tdID{
+   width: 100px;
+   text-align: center;
+}
+#thClientName,#tdClientName{
+   width: 340px;
+   text-align: center;
+}
+#thClientLocation,#tdClientLocation{
+   width: 240px;
+   text-align: center;
+}
+th, td {
+   border: 1px solid black;
+}
+</style >

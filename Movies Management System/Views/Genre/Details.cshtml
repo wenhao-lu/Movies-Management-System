@@ -5,20 +5,133 @@
     ViewBag.Title = "View";
 }
 
-<a href="/Genre/List">Go back to list</a>
-<br />
-<a href="/Genre/Edit/@Model.SelectedGenre.GenreID">Update</a>
-<br />
-<a style="color:#ab2020;" href="/Genre/DeleteConfirm/@Model.SelectedGenre.GenreID">Delete</a>
-<h2>@Model.SelectedGenre.GenreName</h2>
-<div>Genre ID: @Model.SelectedGenre.GenreID</div>
+<h1>Movies Management System</h1>
+<h3><strong>'@Model.SelectedGenre.GenreName'</strong> Genre Details</h3>
 
-
-<div style="margin-top:100px;">
-    <h3>Movies related to this Genre</h3>
-    @foreach (var movie in Model.RelatedMovies)
-    {
-        <a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a>
-
-    }
+<div id="btnContainer">
+    <a id="backBtn" href="/Genre/List">Go back to list</a>
+    <a id="editBtn" href="/Genre/Edit/@Model.SelectedGenre.GenreID">Update Genre</a>
+    <a id="delBtn" href="/Genre/DeleteConfirm/@Model.SelectedGenre.GenreID">Delete Genre</a>
 </div>
+
+<div>
+    <table id="GenreListTable">
+        <tr>
+            <th id="thID">Genre ID</th>
+            <th id="thName">Genre Name</th>
+        </tr>
+        <tr>
+            <td id="tdID"><a href="/Genre/Details/@Model.SelectedGenre.GenreID">@Model.SelectedGenre.GenreID</a></td>
+            <td id="tdName"><a href="/Genre/Details/@Model.SelectedGenre.GenreID">@Model.SelectedGenre.GenreName</a></td>
+        </tr>
+    </table>
+    <h3>Movies related to this Genre <strong>'@Model.SelectedGenre.GenreName'</strong></h3>
+    <div class="relatedGenre">
+        <table id="MovieListTable">
+            <tr>
+                <th id="trID">Movie ID</th>
+                <th id="trPubYear">Publication Year</th>
+                <th id="trTitle">Title</th>
+                <th id="trDirector">Director</th>
+                <th id="trRatings">Ratings</th>
+            </tr>
+            @foreach (var movie in Model.RelatedMovies)
+            {
+                <tr>
+                    <td id="tddID"><a href="/Movie/Details/@movie.MovieID">@movie.MovieID</a></td>
+                    <td id="tddPubYear"><a href="/Movie/Details/@movie.MovieID">@movie.PubYear</a></td>
+                    <td id="tddTitle"><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></td>
+                    <td id="tddDirector"><a href="/Movie/Details/@movie.MovieID">@movie.Director</a></td>
+                    <td id="tddRatings"><a href="/Movie/Details/@movie.MovieID">@movie.Ratings</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+
+<style>
+    body {
+        text-align: center;
+    }
+    h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 700;
+        margin-top: 2em;
+        margin-bottom: 0;
+    }
+    h3 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold 400;
+        margin: 1em auto;
+        text-align: center;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        margin-bottom: 1.5em;
+    }
+
+    #backBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.3em 1em;
+        color: gray;
+    }
+
+    #editBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin: 1em 4em 0 4em;
+        padding: 0.3em 1em;
+        color: blue;
+    }
+
+    #delBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.3em 1em;
+        color: red;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+
+    #thID, #tdID,#trID, #tddID {
+        width: 100px;
+        text-align: center;
+    }
+    #trTitle, #tddTitle {
+        width: 340px;
+        text-align: center;
+    }
+    #trDirector, #tddDirector {
+        width: 240px;
+        text-align: center;
+    }
+    #trPubYear, #tddPubYear {
+        width: 150px;
+        text-align: center;
+    }
+    #trRatings, #tddRatings {
+        width: 80px;
+        text-align: center;
+    }
+    #thName, #tdName {
+        width: 240px;
+        text-align: center;
+    }
+
+    #GenreListTable, #MovieListTable {
+        margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+</style>

@@ -20,7 +20,7 @@
             <th id="trRatings">Ratings</th>
             <th id="trGenre">Genre</th>
         </tr>
-        @foreach (var movie in Model)
+       @foreach (var movie in Model)
         {
         <tr>
             <td id="tdID"><a href="/Movie/Details/@movie.MovieID">@movie.MovieID</a></td>
@@ -28,8 +28,7 @@
             <td id="tdTitle"><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></td>
             <td id="tdDirector"><a href="/Movie/Details/@movie.MovieID">@movie.Director</a></td>
             <td id="tdRatings"><a href="/Movie/Details/@movie.MovieID">@movie.Ratings</a></td>
-            <td id="tdGenre"><a href="/Movie/Details/@movie.MovieID">@movie.GenreName</a></td>
-
+            <td id="tdGenre"><a href="/Genre/List">@movie.GenreName</a></td>
         </tr>
         }
         </table>

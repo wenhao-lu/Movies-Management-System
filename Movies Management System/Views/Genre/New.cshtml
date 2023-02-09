@@ -2,14 +2,55 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create Genre</h2>
+<h1>Movies Management System</h1>
+<h2>Add A New Genre</h2>
+
 <form action="/Genre/Create" method="POST">
-    <div>
+    <div class="addInput">
         <label>Genre Name:</label> <input type="text" name="GenreName" />
     </div>
 
-    <div>
-        <input type="submit" value="Create Genre" />
-
+    <div id="btnContainer">
+        <div>
+            <input type="submit" value="Create Genre" id="addBtn" />
+        </div>
+        <div>
+            <a id="backbtn" href="/Client/List">Back to List</a>
+        </div>
     </div>
 </form>
+
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #addBtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        padding: 0.5em;
+        color: green;
+    }
+
+    #backbtn {
+        border: 1px solid;
+        border-radius: 5px;
+        margin-top: 1em;
+        margin-left: 4em;
+        padding: 0.66em;
+        color: blue;
+    }
+
+    .addInput {
+        margin-top: 1em;
+    }
+
+    #btnContainer {
+        display: flex;
+        flex-flow: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+</style>
