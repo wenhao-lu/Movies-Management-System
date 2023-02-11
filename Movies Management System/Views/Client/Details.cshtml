@@ -34,7 +34,7 @@
         <td id="tdTitle"><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></td>
         <td id="tdDirector"><a href="/Movie/Details/@movie.MovieID">@movie.Director</a></td>
         <td id="tdRatings"><a href="/Movie/Details/@movie.MovieID">@movie.Ratings</a></td>
-        <td id="tdGenre"><a href="/Genre/List">@movie.GenreName</a></td>
+        <td id="tdGenre"><a href="/Genre/Details/@movie.GenreID">@movie.GenreName</a></td>
     </tr>
         }
     </table>
@@ -123,8 +123,10 @@
         text-align: center;
     }
 
-    #MovieDetailsTable {
+    #MovieListTable {
         margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .clientsContainer {

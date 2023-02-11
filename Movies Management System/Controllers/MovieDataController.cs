@@ -19,11 +19,11 @@ namespace Movies_Management_System.Controllers
 
         // GET: api/MovieData
         /// <summary>
-        /// Returns all Movies in the system.
+        /// Return all Movies in the system
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all Movies in the database, including their associated Genre.
+        /// CONTENT: all Movies in the database
         /// </returns>
         /// <example>
         /// GET: api/MovieData/ListMovies
@@ -35,6 +35,7 @@ namespace Movies_Management_System.Controllers
             List<Movie> Movies = db.Movies.ToList();
             List<MovieDto> MovieDtos = new List<MovieDto>();
 
+            // loop through the database movie table to get all information
             Movies.ForEach(a => MovieDtos.Add(new MovieDto()
             {
                 MovieID = a.MovieID,
@@ -50,15 +51,17 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Gathers information about all Movies related to a particular genre ID
+        /// Get information about all movies related to a particular genre ID
+        /// For simple design, one movie only has one genre type, but one genre can have many movies.  1--M relationship
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all Movies in the database, including their associated genre matched with a particular genre ID
+        /// CONTENT: all movies in the database, including their associated genre matched with a particular genre ID
         /// </returns>
         /// <param name="id">Genre ID.</param>
         /// <example>
-        /// GET: api/MovieData/ListMoviesForGenre/3
+        /// GET: api/MovieData/ListMoviesForGenre/2
+        /// Click on genre name (e.g. Drama) can direct to the '/genre/details' page, which lists this genre with associated movies 
         /// </example>
         [HttpGet]
         [ResponseType(typeof(MovieDto))]
@@ -82,7 +85,7 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Gathers information about Movies related to a particular Client
+        /// Get information about Movies related to a particular Client
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
@@ -90,17 +93,18 @@ namespace Movies_Management_System.Controllers
         /// </returns>
         /// <param name="id">Client ID.</param>
         /// <example>
-        /// GET: api/MovieData/ListMoviesForClient/1
+        /// GET: api/MovieData/ListMoviesForClient/3
+        /// Clients WatchList
+        /// Click on client name will direct to the '/client/details' page, which lists this client with associated movies(WatchList) 
         /// </example>
         [HttpGet]
         [ResponseType(typeof(MovieDto))]
         public IHttpActionResult ListMoviesForClient(int id)
         {
-            //all Movies that have Clients which match with our ID
+            //all Movies that have Clients which match with ID
             List<Movie> Movies = db.Movies.Where(
                 a => a.Clients.Any(
-                    k => k.ClientID == id
-                )).ToList();
+                    k => k.ClientID == id)).ToList();
             List<MovieDto> MovieDtos = new List<MovieDto>();
 
             Movies.ForEach(a => MovieDtos.Add(new MovieDto()
@@ -124,12 +128,10 @@ namespace Movies_Management_System.Controllers
         /// <param name="Movieid">The Movie ID primary key</param>
         /// <param name="Clientid">The Client ID primary key</param>
         /// <returns>
-        /// HEADER: 200 (OK)
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// HEADER: 200 (OK) or 404 (NOT FOUND)
         /// </returns>
         /// <example>
-        /// POST api/MovieData/AssociateMovieWithClient/9/1
+        /// POST api/MovieData/AssociateMovieWithClient/9/3
         /// </example>
         [HttpPost]
         [Route("api/MovieData/AssociateMovieWithClient/{Movieid}/{Clientid}")]
@@ -144,11 +146,11 @@ namespace Movies_Management_System.Controllers
                 return NotFound();
             }
 
-            //Debug.WriteLine("input Movie id is: " + Movieid);
-            //Debug.WriteLine("selected Movie name is: " + SelectedMovie.MovieTitle);
-            //Debug.WriteLine("input Client id is: " + Clientid);
-            //Debug.WriteLine("selected Client name is: " + SelectedClient.ClientName);
+            //Debug.WriteLine("Movie id: " + Movieid);
+            //Debug.WriteLine("Selected Movie: " + SelectedMovie.MovieTitle);
 
+            //Debug.WriteLine("Client id: " + Clientid);
+            //Debug.WriteLine("Selected Client: " + SelectedClient.ClientName);
 
             SelectedMovie.Clients.Add(SelectedClient);
             db.SaveChanges();
@@ -157,17 +159,15 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Removes an association between a particular Client and a particular Movie
+        /// Unlink a particular Client with a particular Movie
         /// </summary>
         /// <param name="Movieid">The Movie ID primary key</param>
         /// <param name="Clientid">The Client ID primary key</param>
         /// <returns>
-        /// HEADER: 200 (OK)
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// HEADER: 200 (OK) or 404 (NOT FOUND)
         /// </returns>
         /// <example>
-        /// POST api/MovieData/AssociateMovieWithClient/9/1
+        /// POST api/MovieData/AssociateMovieWithClient/9/5
         /// </example>
         [HttpPost]
         [Route("api/MovieData/UnAssociateMovieWithClient/{Movieid}/{Clientid}")]
@@ -182,11 +182,11 @@ namespace Movies_Management_System.Controllers
                 return NotFound();
             }
 
-            //Debug.WriteLine("input Movie id is: " + Movieid);
-            //Debug.WriteLine("selected Movie name is: " + SelectedMovie.MovieTitle);
-            //Debug.WriteLine("input Client id is: " + Clientid);
-            //Debug.WriteLine("selected Client name is: " + SelectedClient.ClientName);
+            //Debug.WriteLine("Movie id: " + Movieid);
+            //Debug.WriteLine("Selected Movie: " + SelectedMovie.MovieTitle);
 
+            //Debug.WriteLine("Client id: " + Clientid);
+            //Debug.WriteLine("Selected Client: " + SelectedClient.ClientName);
 
             SelectedMovie.Clients.Remove(SelectedClient);
             db.SaveChanges();
@@ -195,17 +195,16 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Returns all Movies in the system.
+        /// Get all Movies in the system.
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
         /// CONTENT: An Movie in the system matching up to the Movie ID primary key
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// or HEADER: 404 (NOT FOUND)
         /// </returns>
         /// <param name="id">The primary key of the Movie</param>
         /// <example>
-        /// GET: api/MovieData/FindMovie/5
+        /// GET: api/MovieData/FindMovie/2
         /// </example>
         [ResponseType(typeof(MovieDto))]
         [HttpGet]
@@ -231,20 +230,16 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Updates a particular Movie in the system with POST Data input
+        /// Update a particular Movie
         /// </summary>
-        /// <param name="id">Represents the Movie ID primary key</param>
-        /// <param name="Movie">JSON FORM DATA of an Movie</param>
+        /// <param name="id">Movie ID primary key</param>
+        /// <param name="Movie">Movie json data</param>
         /// <returns>
-        /// HEADER: 204 (Success, No Content Response)
-        /// or
-        /// HEADER: 400 (Bad Request)
-        /// or
-        /// HEADER: 404 (Not Found)
+        /// HEADER: 204 (Success, No Content Response) or 400 (Bad Request) or 404 (Not Found)
         /// </returns>
         /// <example>
-        /// POST: api/MovieData/UpdateMovie/5
-        /// FORM DATA: Movie JSON Object
+        /// POST: api/MovieData/UpdateMovie/1
+        /// Form data: Movie JSON Object
         /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -257,7 +252,6 @@ namespace Movies_Management_System.Controllers
 
             if (id != Movie.MovieID)
             {
-
                 return BadRequest();
             }
 
@@ -282,18 +276,17 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Adds an Movie to the system
+        /// Add a new Movie to the system
         /// </summary>
-        /// <param name="Movie">JSON FORM DATA of an Movie</param>
+        /// <param name="Movie">Movie json data</param>
         /// <returns>
         /// HEADER: 201 (Created)
         /// CONTENT: Movie ID, Movie Data
-        /// or
-        /// HEADER: 400 (Bad Request)
+        /// or HEADER: 400 (Bad Request)
         /// </returns>
         /// <example>
         /// POST: api/MovieData/AddMovie
-        /// FORM DATA: Movie JSON Object
+        /// Form data: Movie JSON Object
         /// </example>
         [ResponseType(typeof(Movie))]
         [HttpPost]
@@ -311,17 +304,14 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Deletes an Movie from the system by it's ID.
+        /// Delete a Movie from the system
         /// </summary>
-        /// <param name="id">The primary key of the Movie</param>
+        /// <param name="id">Movie primary key</param>
         /// <returns>
-        /// HEADER: 200 (OK)
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// HEADER: 200 (OK) or 404 (NOT FOUND)
         /// </returns>
         /// <example>
-        /// POST: api/MovieData/DeleteMovie/5
-        /// FORM DATA: (empty)
+        /// POST: api/MovieData/DeleteMovie/3
         /// </example>
         [ResponseType(typeof(Movie))]
         [HttpPost]

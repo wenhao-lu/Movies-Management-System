@@ -18,11 +18,11 @@ namespace Movies_Management_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         /// <summary>
-        /// Returns all Clients in the system.
+        /// Return all clients(users) in the system
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all Clients in the database, including their associated genre.
+        /// CONTENT: all Clients(users) in the database, including their associated movies (watchlist)
         /// </returns>
         /// <example>
         /// GET: api/ClientData/ListClients
@@ -45,15 +45,15 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Returns all Clients in the system associated with a particular movie.
+        /// Return all Clients in the system associated with particular movies
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all Clients in the database taking care of a particular movie
+        /// CONTENT: M--M relationship
         /// </returns>
         /// <param name="id">Movie Primary Key</param>
         /// <example>
-        /// GET: api/ClientData/ListClientsForMovie/1
+        /// GET: api/ClientData/ListClientsForMovie/3
         /// </example>
         [HttpGet]
         [ResponseType(typeof(ClientDto))]
@@ -77,15 +77,15 @@ namespace Movies_Management_System.Controllers
 
 
         /// <summary>
-        /// Returns Clients in the system not caring for a particular Movie.
+        /// Return movies that are not liked by specific Clients
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all Clients in the database not taking care of a particular Movie
+        /// CONTENT: some specific Clients in the database don't like a particular Movie
         /// </returns>
         /// <param name="id">Movie Primary Key</param>
         /// <example>
-        /// GET: api/ClientData/ListClientsNotCaringForMovie/1
+        /// GET: api/ClientData/ListClientsNotCaringForMovie/5
         /// </example>
         [HttpGet]
         [ResponseType(typeof(ClientDto))]
@@ -108,17 +108,14 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Returns all Clients in the system.
+        /// Return a specific Client in the system
         /// </summary>
         /// <returns>
-        /// HEADER: 200 (OK)
-        /// CONTENT: An Client in the system matching up to the Client ID primary key
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// HEADER: 200 (OK) or 404 (NOT FOUND)
         /// </returns>
-        /// <param name="id">The primary key of the Client</param>
+        /// <param name="id">Client primary key</param>
         /// <example>
-        /// GET: api/ClientData/FindClient/5
+        /// GET: api/ClientData/FindClient/3
         /// </example>
         [ResponseType(typeof(ClientDto))]
         [HttpGet]
@@ -140,20 +137,15 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Updates a particular Client in the system with POST Data input
+        /// Update a particular Client via POST data
         /// </summary>
-        /// <param name="id">Represents the Client ID primary key</param>
-        /// <param name="Client">JSON FORM DATA of an Client</param>
+        /// <param name="id">Client ID primary key</param>
+        /// <param name="Client">Client json format data</param>
         /// <returns>
-        /// HEADER: 204 (Success, No Content Response)
-        /// or
-        /// HEADER: 400 (Bad Request)
-        /// or
-        /// HEADER: 404 (Not Found)
+        /// HEADER: 204 (Success, No Content Response) or 400 (Bad Request) or 404 (Not Found)
         /// </returns>
         /// <example>
         /// POST: api/ClientData/UpdateClient/5
-        /// FORM DATA: Client JSON Object
         /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -191,9 +183,9 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Adds an Client to the system
+        /// Add a new Client to the system via POST
         /// </summary>
-        /// <param name="Client">JSON FORM DATA of an Client</param>
+        /// <param name="Client">Client json format data</param>
         /// <returns>
         /// HEADER: 201 (Created)
         /// CONTENT: Client ID, Client Data
@@ -202,7 +194,6 @@ namespace Movies_Management_System.Controllers
         /// </returns>
         /// <example>
         /// POST: api/ClientData/AddClient
-        /// FORM DATA: Client JSON Object
         /// </example>
         [ResponseType(typeof(Client))]
         [HttpPost]
@@ -220,17 +211,14 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Deletes an Client from the system by it's ID.
+        /// Delete an Client from the system
         /// </summary>
-        /// <param name="id">The primary key of the Client</param>
+        /// <param name="id">Client primary key</param>
         /// <returns>
-        /// HEADER: 200 (OK)
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// HEADER: 200 (OK) or 404 (NOT FOUND)
         /// </returns>
         /// <example>
-        /// POST: api/ClientData/DeleteClient/5
-        /// FORM DATA: (empty)
+        /// POST: api/ClientData/DeleteClient/3
         /// </example>
         [ResponseType(typeof(Client))]
         [HttpPost]

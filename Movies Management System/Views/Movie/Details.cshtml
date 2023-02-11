@@ -44,7 +44,7 @@
                     <th id="thID">Client ID</th>
                     <th id="thName">Client Info</th>
                 </tr>
-               @foreach (var Client in Model.ResponsibleClients)
+               @foreach (var Client in Model.LinkedClients)
                 {
                 <tr>
                     <td id="tddID"><a href="/Client/Details/@Client.ClientID">@Client.ClientID</a></td>
@@ -54,7 +54,7 @@
             </table>
         </div>
         <div class="addFav">
-            <h4>Add a new client who also loves <strong>'@Model.SelectedMovie.MovieTitle'</strong></h4>
+            <h4>Add a new client who loves <strong>'@Model.SelectedMovie.MovieTitle'</strong></h4>
             <form method="POST" action="/Movie/Associate/@Model.SelectedMovie.MovieID">
                 <select name="ClientID">
                     @foreach (var Client in Model.AvailableClients)

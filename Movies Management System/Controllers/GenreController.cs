@@ -25,52 +25,48 @@ namespace Movies_Management_System.Controllers
         // GET: Genre/List
         public ActionResult List()
         {
-            //objective: communicate with our Genre data api to retrieve a list of Genres
-            //curl https://localhost:44387/api/genredata/listgenres
-
+            //communicate with GenreData api to retrieve a list of Genres
+            //e.g. curl https://localhost:44387/api/genredata/listgenres
 
             string url = "genredata/listgenre";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            //Debug.WriteLine("The response code is ");
             //Debug.WriteLine(response.StatusCode);
 
-            IEnumerable<GenreDto> Genre = response.Content.ReadAsAsync<IEnumerable<GenreDto>>().Result;
-            //Debug.WriteLine("Number of Genres received : ");
+            IEnumerable<GenreDto> Genres = response.Content.ReadAsAsync<IEnumerable<GenreDto>>().Result;
+
             //Debug.WriteLine(Genres.Count());
 
-
-            return View(Genre);
+            // return to the view page of /genre/list  
+            return View(Genres);
         }
 
         // GET: Genre/Details/5
         public ActionResult Details(int id)
         {
-            //objective: communicate with our genre data api to retrieve one genre
-            //curl https://localhost:44387/api/genredata/findgenre/{id}
-
+            //communicate with GenreData api to retrieve one specific genre
+            //e.g. curl https://localhost:44387/api/genredata/findgenre/{id}
+            // create a ViewModel to show the relationship between Genres and Movies
             DetailsGenre ViewModel = new DetailsGenre();
 
             string url = "genredata/findgenre/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine(response.StatusCode);
 
             GenreDto SelectedGenre = response.Content.ReadAsAsync<GenreDto>().Result;
-            Debug.WriteLine("Genre received : ");
-            Debug.WriteLine(SelectedGenre.GenreName);
+
+            //Debug.WriteLine(SelectedGenre.GenreName);
 
             ViewModel.SelectedGenre = SelectedGenre;
 
-            //showcase information about movies related to this Genre
-            //send a request to gather information about movies related to a particular genre ID
+            //showcase information about movies related to this perticular genre
+            //many movies can be related to one particular genre, 1--M relationship
             url = "moviedata/listmoviesforgenre/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<MovieDto> RelatedMovies = response.Content.ReadAsAsync<IEnumerable<MovieDto>>().Result;
 
             ViewModel.RelatedMovies = RelatedMovies;
-
 
             return View(ViewModel);
         }
@@ -91,15 +87,15 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Create(Genre Genre)
         {
-            Debug.WriteLine("the json payload is :");
+            //Debug.WriteLine("the json payload is :");
             //Debug.WriteLine(Genre.GenreName);
-            //objective: add a new Genre into our system using the API
-            //curl -H "Content-Type:application/json" -d @Genre.json https://localhost:44387/api/genredata/addgenre 
+
+            //add a new Genre into our system
+            //e.g. curl -H "Content-Type:application/json" -d @Genre.json https://localhost:44387/api/genredata/addgenre 
             string url = "genredata/addgenre";
 
-
             string jsonpayload = jss.Serialize(Genre);
-            Debug.WriteLine(jsonpayload);
+            //Debug.WriteLine(jsonpayload);
 
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
@@ -130,13 +126,15 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Update(int id, Genre Genre)
         {
-
+            // update a specific genre
             string url = "genredata/updategenre/" + id;
             string jsonpayload = jss.Serialize(Genre);
+
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
+
             HttpResponseMessage response = client.PostAsync(url, content).Result;
-            Debug.WriteLine(content);
+
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("List");
@@ -150,6 +148,7 @@ namespace Movies_Management_System.Controllers
         // GET: Genre/Delete/5
         public ActionResult DeleteConfirm(int id)
         {
+            // confirmation of a genre deletion
             string url = "genredata/findgenre/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             GenreDto selectedGenre = response.Content.ReadAsAsync<GenreDto>().Result;
@@ -159,7 +158,8 @@ namespace Movies_Management_System.Controllers
         // POST: Genre/Delete/5
         [HttpPost]
         public ActionResult Delete(int id)
-        {
+        {   
+            // remove a specific genre from the system via POST
             string url = "genredata/deletegenre/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";

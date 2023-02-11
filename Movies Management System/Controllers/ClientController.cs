@@ -16,8 +16,10 @@ namespace Movies_Management_System.Controllers
         private static readonly HttpClient client;
         private JavaScriptSerializer jss = new JavaScriptSerializer();
 
+        // set up CRUD functions (and others) for Client  
         static ClientController()
         {
+            // set up the base url address
             client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44387/api/");
         }
@@ -25,21 +27,18 @@ namespace Movies_Management_System.Controllers
         // GET: Client/List
         public ActionResult List()
         {
-            //objective: communicate with our Client data api to retrieve a list of Clients
-            //curl https://localhost:44387/api/clientdata/listclients
-
+            // communicate with ClientData api to retrieve a list of Clients
+            //e.g. curl https://localhost:44387/api/clientdata/listclients
 
             string url = "clientdata/listclients";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            //Debug.WriteLine("The response code is ");
             //Debug.WriteLine(response.StatusCode);
 
             IEnumerable<ClientDto> Clients = response.Content.ReadAsAsync<IEnumerable<ClientDto>>().Result;
-            //Debug.WriteLine("Number of Clients received : ");
             //Debug.WriteLine(Clients.Count());
 
-
+            // return to the 'Clients' view page
             return View(Clients);
         }
 
@@ -48,28 +47,26 @@ namespace Movies_Management_System.Controllers
         {
             DetailsClient ViewModel = new DetailsClient();
 
-            //objective: communicate with our Client data api to retrieve one Client
-            //curl https://localhost:44387/api/Clientdata/findClient/{id}
+            //communicate with ClientData api to retrieve one Client
+            //e.g. curl https://localhost:44387/api/Clientdata/findClient/{id}
 
             string url = "clientdata/findclient/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine(response.StatusCode);
 
             ClientDto SelectedClient = response.Content.ReadAsAsync<ClientDto>().Result;
-            Debug.WriteLine("Client received : ");
-            Debug.WriteLine(SelectedClient.ClientName);
+
+            //Debug.WriteLine(SelectedClient.ClientName);
 
             ViewModel.SelectedClient = SelectedClient;
 
-            //show all movies under the care of this Client
+            //show all movies loved by this Client (client's watchlist)
             url = "moviedata/listmoviesforclient/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<MovieDto> KeptMovies = response.Content.ReadAsAsync<IEnumerable<MovieDto>>().Result;
 
             ViewModel.KeptMovies = KeptMovies;
-
 
             return View(ViewModel);
         }
@@ -90,15 +87,14 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Create(Client Client)
         {
-            Debug.WriteLine("the json payload is :");
+            // add a new client via POST
+            //Debug.WriteLine("the json payload is :");
             //Debug.WriteLine(Client.ClientName);
-            //objective: add a new Client into our system using the API
             //curl -H "Content-Type:application/json" -d @Client.json https://localhost:44387/api/clientdata/addclient 
             string url = "clientdata/addclient";
 
-
             string jsonpayload = jss.Serialize(Client);
-            Debug.WriteLine(jsonpayload);
+            //Debug.WriteLine(jsonpayload);
 
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
@@ -119,6 +115,7 @@ namespace Movies_Management_System.Controllers
         // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
+            // choose a specific client ready to edit
             string url = "clientdata/findclient/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             ClientDto selectedClient = response.Content.ReadAsAsync<ClientDto>().Result;
@@ -129,13 +126,15 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Update(int id, Client Client)
         {
-
+            // update a specific client
             string url = "clientdata/updateclient/" + id;
             string jsonpayload = jss.Serialize(Client);
+
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
-            Debug.WriteLine(content);
+            //Debug.WriteLine(content);
+
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("List");
@@ -149,9 +148,11 @@ namespace Movies_Management_System.Controllers
         // GET: Client/Delete/5
         public ActionResult DeleteConfirm(int id)
         {
+            // client delete confirm
             string url = "clientdata/findclient/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             ClientDto selectedClient = response.Content.ReadAsAsync<ClientDto>().Result;
+
             return View(selectedClient);
         }
 
@@ -159,6 +160,7 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
+            // delete a specific client
             string url = "clientdata/deleteclient/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";

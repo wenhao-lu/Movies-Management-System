@@ -11,6 +11,7 @@ using System.Web.Script.Serialization;
 
 namespace Movies_Management_System.Controllers
 {
+    // set up CRUD functions (and others) for Movie  
     public class MovieController : Controller
     {
         private static readonly HttpClient client;
@@ -18,6 +19,7 @@ namespace Movies_Management_System.Controllers
 
         static MovieController()
         {
+            // set up the base url address
             client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44387/api/");
         }
@@ -25,21 +27,20 @@ namespace Movies_Management_System.Controllers
         // GET: Movie/List
         public ActionResult List()
         {
-            //objective: communicate with our Movie data api to retrieve a list of Movies
+            //communicate with ClientData api to retrieve a list of Clients
             //curl https://localhost:44387/api/Moviedata/listMovies
 
 
             string url = "Moviedata/listMovies";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            //Debug.WriteLine("The response code is ");
             //Debug.WriteLine(response.StatusCode);
 
             IEnumerable<MovieDto> Movies = response.Content.ReadAsAsync<IEnumerable<MovieDto>>().Result;
-            //Debug.WriteLine("Number of Movies received : ");
+
             //Debug.WriteLine(Movies.Count());
 
-
+            // return to the 'Movies' view page
             return View(Movies);
         }
 
@@ -48,34 +49,35 @@ namespace Movies_Management_System.Controllers
         {
             DetailsMovie ViewModel = new DetailsMovie();
 
-            //objective: communicate with our Movie data api to retrieve one Movie
+            //communicate with Moviedata api to retrieve one specific Movie
             //curl https://localhost:44387/api/Moviedata/findMovie/{id}
 
             string url = "Moviedata/findMovie/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
 
             MovieDto SelectedMovie = response.Content.ReadAsAsync<MovieDto>().Result;
-            Debug.WriteLine("Movie received : ");
-            Debug.WriteLine(SelectedMovie.MovieTitle);
+            //Debug.WriteLine("Movie received : ");
+            //Debug.WriteLine(SelectedMovie.MovieTitle);
 
+            // set up a ViewModel to show the relationship between movies and clients
             ViewModel.SelectedMovie = SelectedMovie;
 
-            //show associated Clients with this Movie
+            //show associated Clients with this Movie via ViewModel
             url = "clientdata/listclientsformovie/" + id;
             response = client.GetAsync(url).Result;
-            IEnumerable<ClientDto> ResponsibleClients = response.Content.ReadAsAsync<IEnumerable<ClientDto>>().Result;
+            IEnumerable<ClientDto> LinkedClients = response.Content.ReadAsAsync<IEnumerable<ClientDto>>().Result;
 
-            ViewModel.ResponsibleClients = ResponsibleClients;
+            ViewModel.LinkedClients = LinkedClients;
 
+            // show unlinked Clients to this movie
             url = "clientdata/listclientsnotinterestedmovie/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<ClientDto> AvailableClients = response.Content.ReadAsAsync<IEnumerable<ClientDto>>().Result;
 
             ViewModel.AvailableClients = AvailableClients;
-
 
             return View(ViewModel);
         }
@@ -85,9 +87,9 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Associate(int id, int ClientID)
         {
-            Debug.WriteLine("Attempting to associate Movie :" + id + " with Client " + ClientID);
+            //Debug.WriteLine("Associate Movie :" + id + " with Client " + ClientID);
 
-            //call our api to associate Movie with Client
+            //call api to link Movie with Client
             string url = "moviedata/associatemoviewithclient/" + id + "/" + ClientID;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
@@ -101,9 +103,9 @@ namespace Movies_Management_System.Controllers
         [HttpGet]
         public ActionResult UnAssociate(int id, int ClientID)
         {
-            Debug.WriteLine("Attempting to unassociate Movie :" + id + " with Client: " + ClientID);
+            //Debug.WriteLine("Unassociate Movie :" + id + " with Client: " + ClientID);
 
-            //call our api to associate Movie with Client
+            //call api to link Movie with Client
             string url = "moviedata/unassociatemoviewithclient/" + id + "/" + ClientID;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
@@ -115,14 +117,14 @@ namespace Movies_Management_System.Controllers
 
         public ActionResult Error()
         {
-
+            // error view page
             return View();
         }
 
-        // GET: Movie/New
+        
         public ActionResult New()
         {
-            //information about all Genre in the system.
+            //show a list of genres
             //GET api/Genredata/listGenre
 
             string url = "genredata/listgenre";
@@ -136,15 +138,15 @@ namespace Movies_Management_System.Controllers
         [HttpPost]
         public ActionResult Create(Movie Movie)
         {
-            Debug.WriteLine("the json payload is :");
+            //Debug.WriteLine("json payload:");
             //Debug.WriteLine(Movie.MovieName);
-            //objective: add a new Movie into our system using the API
-            //curl -H "Content-Type:application/json" -d @Movie.json https://localhost:44387/api/Moviedata/addMovie 
+            //add a new movie
+            //e.g. curl -H "Content-Type:application/json" -d @Movie.json https://localhost:44387/api/Moviedata/addMovie 
             string url = "moviedata/addmovie";
 
-
+            // json
             string jsonpayload = jss.Serialize(Movie);
-            Debug.WriteLine(jsonpayload);
+            //Debug.WriteLine(jsonpayload);
 
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
@@ -173,8 +175,8 @@ namespace Movies_Management_System.Controllers
             MovieDto SelectedMovie = response.Content.ReadAsAsync<MovieDto>().Result;
             ViewModel.SelectedMovie = SelectedMovie;
 
-            // all Genre to choose from when updating this Movie
-            //the existing Movie information
+            // all genres to choose from when updating this Movie
+            // the existing Movie information
             url = "genredata/listgenre/";
             response = client.GetAsync(url).Result;
             IEnumerable<GenreDto> GenreOptions = response.Content.ReadAsAsync<IEnumerable<GenreDto>>().Result;

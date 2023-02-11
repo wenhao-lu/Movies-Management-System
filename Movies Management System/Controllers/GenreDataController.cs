@@ -18,11 +18,11 @@ namespace Movies_Management_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         /// <summary>
-        /// Returns all Genres in the system.
+        /// Return all Genres in the system
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all Genres in the database, including their associated Genre.
+        /// CONTENT: all genres in the database
         /// </returns>
         /// <example>
         /// GET: api/GenreData/ListGenre
@@ -31,10 +31,10 @@ namespace Movies_Management_System.Controllers
         [ResponseType(typeof(GenreDto))]
         public IHttpActionResult ListGenre()
         {
-            List<Genre> Genre = db.Genres.ToList();
+            List<Genre> Genres = db.Genres.ToList();
             List<GenreDto> GenreDtos = new List<GenreDto>();
 
-            Genre.ForEach(s => GenreDtos.Add(new GenreDto()
+            Genres.ForEach(s => GenreDtos.Add(new GenreDto()
             {
                 GenreID = s.GenreID,
                 GenreName = s.GenreName,
@@ -44,7 +44,7 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Returns all Genres in the system.
+        /// Return all Genres in the system.
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
@@ -54,12 +54,13 @@ namespace Movies_Management_System.Controllers
         /// </returns>
         /// <param name="id">The primary key of the Genre</param>
         /// <example>
-        /// GET: api/GenreData/FindGenre/5
+        /// GET: api/GenreData/FindGenre/6
         /// </example>
         [ResponseType(typeof(GenreDto))]
         [HttpGet]
         public IHttpActionResult FindGenre(int id)
         {
+            // instantiate
             Genre Genre = db.Genres.Find(id);
             GenreDto GenreDto = new GenreDto()
             {
@@ -75,20 +76,15 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Updates a particular Genre in the system with POST Data input
+        /// Update a particular Genre in the system via POST
         /// </summary>
-        /// <param name="id">Represents the Genre ID primary key</param>
-        /// <param name="Genre">JSON FORM DATA of an Genre</param>
+        /// <param name="id">Genre ID primary key</param>
+        /// <param name="Genre">Genre json format data</param>
         /// <returns>
-        /// HEADER: 204 (Success, No Content Response)
-        /// or
-        /// HEADER: 400 (Bad Request)
-        /// or
-        /// HEADER: 404 (Not Found)
+        /// HEADER: 204 (Success, No Content Response) or 400 (Bad Request) or 404 (Not Found)
         /// </returns>
         /// <example>
-        /// POST: api/GenreData/UpdateGenre/5
-        /// FORM DATA: Genre JSON Object
+        /// POST: api/GenreData/UpdateGenre/3
         /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -126,9 +122,9 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Adds an Genre to the system
+        /// Add an new Genre to the system via POST
         /// </summary>
-        /// <param name="Genre">JSON FORM DATA of an Genre</param>
+        /// <param name="Genre">Genre json format data</param>
         /// <returns>
         /// HEADER: 201 (Created)
         /// CONTENT: Genre ID, Genre Data
@@ -137,7 +133,6 @@ namespace Movies_Management_System.Controllers
         /// </returns>
         /// <example>
         /// POST: api/GenreData/AddGenre
-        /// FORM DATA: Genre JSON Object
         /// </example>
         [ResponseType(typeof(Genre))]
         [HttpPost]
@@ -155,17 +150,14 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Deletes an Genre from the system by it's ID.
+        /// Delete a Genre from the system via POST
         /// </summary>
-        /// <param name="id">The primary key of the Genre</param>
+        /// <param name="id">primary key of the Genre</param>
         /// <returns>
-        /// HEADER: 200 (OK)
-        /// or
-        /// HEADER: 404 (NOT FOUND)
+        /// HEADER: 200 (OK) or 404 (NOT FOUND)
         /// </returns>
         /// <example>
-        /// POST: api/GenreData/DeleteGenre/5
-        /// FORM DATA: (empty)
+        /// POST: api/GenreData/DeleteGenre/1
         /// </example>
         [ResponseType(typeof(Genre))]
         [HttpPost]
