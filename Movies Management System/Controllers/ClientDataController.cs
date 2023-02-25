@@ -77,7 +77,7 @@ namespace Movies_Management_System.Controllers
 
 
         /// <summary>
-        /// Return movies that are not liked by specific Clients
+        /// Return clients that are not associated with a particular movie id
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)

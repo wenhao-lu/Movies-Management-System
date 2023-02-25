@@ -16,6 +16,11 @@ namespace Movies_Management_System.Models
         public string Director { get; set; }
         public int Ratings { get; set; }
 
+        //movie images uploaded data for tracking
+        //images will be stored into /Content/Images/Movies/{id}.{extension}
+        public bool MovieHasPic { get; set; }
+        public string PicExtension { get; set; }
+
 
         // <Genre>-<Movie>  ==  1-M 
         [ForeignKey("Genre")]
@@ -38,6 +43,10 @@ namespace Movies_Management_System.Models
         public int GenreID { get; set; }
         public string GenreName { get; set; }
 
+        //movie images uploaded data for tracking
+        //images will be stored into /Content/Images/Movies/{id}.{extension}
+        public bool MovieHasPic { get; set; }
+        public string PicExtension { get; set; }
 
     }
 }

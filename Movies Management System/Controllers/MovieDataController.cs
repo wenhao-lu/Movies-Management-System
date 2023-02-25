@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;    // needed for updating pictures 
+using System.Web;   // needed for updating pictures 
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -230,7 +232,7 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Update a particular Movie
+        /// Update a particular Movie (with a picture uploaded)
         /// </summary>
         /// <param name="id">Movie ID primary key</param>
         /// <param name="Movie">Movie json data</param>
@@ -256,6 +258,9 @@ namespace Movies_Management_System.Controllers
             }
 
             db.Entry(Movie).State = EntityState.Modified;
+            // contact database for picture upload feature
+            db.Entry(Movie).Property(a => a.MovieHasPic).IsModified = false;
+            db.Entry(Movie).Property(a => a.PicExtension).IsModified = false;
 
             try
             {
@@ -274,6 +279,94 @@ namespace Movies_Management_System.Controllers
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        /// <summary>
+        /// Receive movie picture data, upload to the server, set MovieHasPic status
+        /// </summary>
+        /// <param name="id">the movie id</param>
+        /// <returns>
+        /// Successful status code 200
+        /// </returns>
+        /// <example>
+        /// curl -F moviepic=@file.jpg "https://localhost:44387/api/moviedata/uploadmoviepic/1"
+        /// POST: api/MovieData/UpdateMoviePic/1
+        /// Form data: Movie Image
+        /// </example>
+        [HttpPost]
+        public IHttpActionResult UploadMoviePic(int id)
+        {
+
+            bool movieHaspic = false;
+            string picextension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                // check the number of image files received 
+                int numfiles = HttpContext.Current.Request.Files.Count;
+                Debug.WriteLine("Received files: " + numfiles);
+
+                //Check if a file is posted
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var moviePic = HttpContext.Current.Request.Files[0];
+                    //Check if the file is empty
+                    if (moviePic.ContentLength > 0)
+                    {
+                        //set up valid image file types (file extensions)
+                        var imgTypes = new[] { "jpeg", "jpg", "png", "gif", "jfif", "webp" };
+                        var extension = Path.GetExtension(moviePic.FileName).Substring(1);
+                        //Check the extension of the file
+                        if (imgTypes.Contains(extension))
+                        {
+                            try
+                            {
+                                string fileName = id + "." + extension;
+
+                                //file path to ~/Content/Images/Movies/{id}.{extension}
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Images/Movies/"), fileName);
+
+                                //save the file to the path with 'fileName'
+                                moviePic.SaveAs(path);
+
+                                //movie picture was uploaded correctly
+                                movieHaspic = true;
+                                picextension = extension;
+
+                                //update the movie picture related data
+                                Movie Selectedmovie = db.Movies.Find(id);
+                                Selectedmovie.MovieHasPic = movieHaspic;
+                                Selectedmovie.PicExtension = picextension;
+                                db.Entry(Selectedmovie).State = EntityState.Modified;
+
+                                db.SaveChanges();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                // check for error
+                                Debug.WriteLine("Picture save failed");
+                                Debug.WriteLine("Exception:" + ex);
+                                return BadRequest();
+                            }
+                        }
+                    }
+
+                }
+
+                return Ok();
+            }
+            else
+            {
+                //not multipart form data
+                return BadRequest();
+
+            }
+
+        }
+
+
+
+
+
 
         /// <summary>
         /// Add a new Movie to the system
@@ -304,7 +397,7 @@ namespace Movies_Management_System.Controllers
         }
 
         /// <summary>
-        /// Delete a Movie from the system
+        /// Delete a Movie from the system (including the movie picture)
         /// </summary>
         /// <param name="id">Movie primary key</param>
         /// <returns>
@@ -321,6 +414,16 @@ namespace Movies_Management_System.Controllers
             if (Movie == null)
             {
                 return NotFound();
+            }
+
+            if (Movie.MovieHasPic && Movie.PicExtension != "")
+            {
+                //delete movie picture from path
+                string path = HttpContext.Current.Server.MapPath("~/Content/Images/Movies/" + id + "." + Movie.PicExtension);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
             }
 
             db.Movies.Remove(Movie);
