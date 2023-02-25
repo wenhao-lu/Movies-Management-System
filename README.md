@@ -1,5 +1,5 @@
 # Movies-Management-System
-## A movie system for users private collections
+## A movie system for user private collections
 - 3 Entities: Movie,Genre,Client
 -  Data structure: Movie--Client => M--M; Genre--Movie => 1--M
 - CRUD function: Create, Read, Update, and Delete functions for all the three Entities
