@@ -7,6 +7,9 @@
 <h1>Movies Management System</h1>
 <h2>Update A Movie</h2>
 
+
+
+
 <form action="/Movie/Update/@Model.SelectedMovie.MovieID" method="POST">
     <div style="display:none;">
         @* Pass through the Movie ID *@
@@ -40,9 +43,15 @@
             }
         </select>
     </div>
+    <div class="editInput upBtn">
+        <input type="file" name="MoviePic" />
+    </div>
+
+
+
     <div id="btnContainer">
         <div>
-            <input type="submit" value="Update Movie" id="editBtn"/>
+            <input type="submit" value="Update Movie" id="editBtn" />
         </div>
         <div>
             <a id="backbtn" href="/Movie/List">Back to List</a>
@@ -54,7 +63,12 @@
     body {
         text-align: center;
     }
-
+    .upBtn {
+        margin: 0;
+        position: absolute;
+        top: 60%;
+        left: 20%;
+    }
     #editBtn {
         border: 1px solid;
         border-radius: 5px;
@@ -62,7 +76,6 @@
         padding: 0.5em;
         color: green;
     }
-
     #backbtn {
         border: 1px solid;
         border-radius: 5px;
@@ -71,11 +84,9 @@
         padding: 0.66em;
         color: blue;
     }
-
     .editInput {
         margin-top: 1em;
     }
-
     #btnContainer {
         display: flex;
         flex-flow: row;

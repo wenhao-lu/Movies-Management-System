@@ -200,6 +200,10 @@
     <Compile Include="Migrations\202302040531053_dataset.Designer.cs">
       <DependentUpon>202302040531053_dataset.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202302210447215_moviepic.cs" />
+    <Compile Include="Migrations\202302210447215_moviepic.Designer.cs">
+      <DependentUpon>202302210447215_moviepic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Client.cs" />
@@ -312,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202302040531053_dataset.resx">
       <DependentUpon>202302040531053_dataset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302210447215_moviepic.resx">
+      <DependentUpon>202302210447215_moviepic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

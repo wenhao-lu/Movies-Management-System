@@ -186,23 +186,56 @@ namespace Movies_Management_System.Controllers
             return View(ViewModel);
         }
 
-        // POST: Movie/Update/5
-        [HttpPost]
-        public ActionResult Update(int id, Movie Movie)
-        {
 
+        // POST: Movie/Update/5
+        /// <summary>
+        /// Add upload movie picture funtion
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="Movie"></param>
+        /// <param name="MoviePic"></param>
+        /// <returns>
+        /// Updated movies information and redirect to the Movie List page
+        /// User can update the movie without uploading a picture (optional)
+        /// </returns>
+        [HttpPost]
+        public ActionResult Update(int id, Movie Movie, HttpPostedFileBase MoviePic)
+        {
+            // upload movie pictures method
+            // add a feature to uplaod image file to the server using POST request(in the Update function)
             string url = "moviedata/updatemovie/" + id;
             string jsonpayload = jss.Serialize(Movie);
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             Debug.WriteLine(content);
-            if (response.IsSuccessStatusCode)
+
+
+            //server response is OK, and we have movie picture data(file exists)
+            if (response.IsSuccessStatusCode && MoviePic != null)
             {
+                //Seperate request for updating the movie picture (when user update movies without providing pictures) 
+                //Debug.WriteLine("Update picture");
+
+                //set up picture url
+                url = "MovieData/UploadMoviePic/" + id;
+                Debug.WriteLine("Received picture "+ MoviePic.FileName);
+
+                MultipartFormDataContent requestcontent = new MultipartFormDataContent();
+                HttpContent imagecontent = new StreamContent(MoviePic.InputStream);
+                requestcontent.Add(imagecontent, "MoviePic", MoviePic.FileName);
+                response = client.PostAsync(url, requestcontent).Result;
+
+                return RedirectToAction("List");
+            }
+            else if (response.IsSuccessStatusCode)
+            {
+                //server response is OK, but no picture uploaded(upload picture is a seperate add-on feature)
                 return RedirectToAction("List");
             }
             else
             {
+                
                 return RedirectToAction("Error");
             }
         }

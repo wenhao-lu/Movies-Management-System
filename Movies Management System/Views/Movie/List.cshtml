@@ -3,94 +3,115 @@
     ViewBag.Title = "List";
 }
 
-<h1>Movies Management System</h1>
-<h3>Movie List</h3>
 
-<nav id="add">
-    <a class="navlink" href="/Movie/New">New Movie</a>
-</nav>
+<h1>Movie List</h1>
 
 
-    <table id="MovieListTable">
-        <tr>
-            <th id="trID">Movie ID</th>
-            <th id="trPubYear">Publication Year</th>
-            <th id="trTitle">Title</th>
-            <th id="trDirector">Director</th>
-            <th id="trRatings">Ratings</th>
-            <th id="trGenre">Genre</th>
-        </tr>
-       @foreach (var movie in Model)
-        {
-        <tr>
-            <td id="tdID"><a href="/Movie/Details/@movie.MovieID">@movie.MovieID</a></td>
-            <td id="tdPubYear"><a href="/Movie/Details/@movie.MovieID">@movie.PubYear</a></td>
-            <td id="tdTitle"><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></td>
-            <td id="tdDirector"><a href="/Movie/Details/@movie.MovieID">@movie.Director</a></td>
-            <td id="tdRatings"><a href="/Movie/Details/@movie.MovieID">@movie.Ratings</a></td>
-            <td id="tdGenre"><a href="/Genre/Details/@movie.GenreID">@movie.GenreName</a></td>
-        </tr>
-        }
-        </table>
+<div class="container">
+    @foreach (var movie in Model)
+    {
+        <div class="movie">
+            <img class="poster" src="~/Content/Images/Movies/@movie.MovieID .jpg" alt="Poster">
+            <div class="details">
+                <h2 class="title"><a href="/Movie/Details/@movie.MovieID">@movie.MovieTitle</a></h2>
+                <p class="movieID">Movie ID: @movie.MovieID</p>
+                <p class="director">Director: @movie.Director</p>
+                <p class="year">Publication Year: @movie.PubYear</p>
+                <p class="ratings">Ratings: @movie.Ratings</p>
+                <p class="genres"><a href="/Genre/Details/@movie.GenreID">Genre: @movie.GenreName</a></p>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="button-container">
+
+    <a class="button-add" href="/Movie/New">New Movie</a>
+    <a class="button-back" href="/">BACK</a>
+</div>
 
 
 <style>
-th, td {
-   border: 1px solid black;
-}
-#trID, #tdID, #trGenre, #tdGenre {
-   width: 100px;
-   text-align: center;
-}
-#trTitle, #tdTitle{
-   width: 340px;
-   text-align: center;
-}
-#trDirector, #tdDirector {
-   width: 240px;
-   text-align: center;
-}
-#trPubYear, #tdPubYear {
-   width: 150px;
-   text-align: center;
-}
-#trRatings, #tdRatings {
-   width: 80px;
-   text-align: center;
-}
-/*body {
-   background-color: black;
-   color: white;
-}*/
-#add {
-   text-align: center;
-   margin: 1em auto;
-}
-.navlink {
-   padding: 0.2em;
-   border: 1px solid;
-   border-radius: 5px;
-}
-h1 {
-   font-family: 'Ubuntu', sans-serif;
-   font-weight: bold 700;
-   /*color: white;}*/
-   margin-top: 2em;
-   margin-bottom: 0;
-   text-align: center;
-}
-h3 {
-   font-family: 'Ubuntu', sans-serif;
-   font-weight: bold 400;
-   /*color: white;}*/
-   margin: 1em auto;
-   text-align: center;
-}
-#MovieListTable {
-   border-style: solid;
-   margin-left: auto;
-   margin-right: auto;
-   table-layout: fixed;
-   width: 100%;
-}
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+        color: #444;
+    }
+
+    .container {
+        max-width: 90%;
+        margin: 0 auto;
+        padding-right: 30px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .movie {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+    }
+
+    .poster {
+        width: 120px;
+        height: 180px;
+        margin-right: 20px;
+        object-fit: cover;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .details {
+        flex: 1;
+        color: #333;
+    }
+
+    .title {
+        font-size: 24px;
+        margin: 0 0 10px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 32px;
+    }
+
+    .button-add {
+        padding: 10px 20px;
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button-add:hover {
+        background-color: #d32f2f;
+    }
+
+    .button-back {
+        padding: 10px 20px;
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 20px;
+    }
+
+    .button-back:hover {
+        background-color: #1976d2;
+    }
 </style>
+
+
+
+
